@@ -13,6 +13,9 @@ try{
 
     $app    = (new Fratily\Framework\ApplicationFactory($cache))->create([], $debug, $containerCache);
 
+    $request    = (new Fratily\Http\Factory\ServerRequestFactory())->createServerRequestFromArray($_SERVER);
+
+    $app->generateResponse($request)->send();
     echo "Success";
 }catch(Throwable $e){
     if(!headers_sent()){
@@ -24,16 +27,7 @@ try{
         echo PHP_EOL, "<br>", PHP_EOL;
         echo $e->getMessage();
         echo PHP_EOL, "<br><br>", PHP_EOL;
-
-        foreach($e->getTrace() as $t){
-            echo ($t["class"]??""), ($t["type"]??""), ($t["function"]??"unknown");
-            echo "(", implode(", ", array_map(
-                function($v){
-                    return \Fratily\Debug\Dumper::dumpSimple($v);
-                }, $t["args"]??[])
-            ), ")";
-            echo PHP_EOL, "<br>", PHP_EOL;
-        }
+        echo nl2br($e->getTraceAsString());
     }else{
         echo "System error!!";
     }
