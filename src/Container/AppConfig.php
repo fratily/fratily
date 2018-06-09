@@ -40,6 +40,17 @@ class AppConfig extends ContainerConfig{
                     )
                 ]
             ))
+            ->set("app.log", $container->lazyNew(
+                \Monolog\Logger::class
+            ))
+            ->set("app.log.handler", $container->lazyNew(
+                \Monolog\Handler\StreamHandler::class,
+                [
+                    __DIR__ . "/../../var/log",
+                    \Monolog\Logger::DEBUG,
+                ]
+            ))
+            ->setter(\Monolog\Logger::class, "pushHandler", $container->lazyGet("app.log.handler"))
         ;
     }
 }
