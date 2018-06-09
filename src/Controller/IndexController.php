@@ -19,6 +19,10 @@ namespace App\Controller;
 class IndexController extends \Fratily\Framework\Controller\Controller{
 
     public function index(){
-        return "hello world!";
+        return <<<HTML
+<!DOCTYPE html>
+<head><title></title></head>
+<body><p>index action.</p></body>
+HTML;
     }
 }
