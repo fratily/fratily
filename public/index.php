@@ -22,7 +22,6 @@ try{
     $request    = (new Fratily\Http\Factory\ServerRequestFactory())->createServerRequestFromArray($_SERVER);
 
     $app->generateResponse($request)->send();
-    echo "Success";
 }catch(Throwable $e){
     if(!headers_sent()){
         http_response_code(500);
