@@ -11,7 +11,13 @@ try{
 
     $containerCache = true;
 
-    $app    = (new Fratily\Framework\ApplicationFactory($cache))->create([], $debug, $containerCache);
+    $app    = (new Fratily\Framework\ApplicationFactory($cache))
+        ->create([
+            App\Container\AppConfig::class
+        ], $debug, $containerCache
+    );
+
+    $app->get("/", "app.controller.index:index", "index");
 
     $request    = (new Fratily\Http\Factory\ServerRequestFactory())->createServerRequestFromArray($_SERVER);
 
