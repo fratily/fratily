@@ -46,7 +46,7 @@ class AppConfig extends ContainerConfig{
             ->set("app.log.handler", $container->lazyNew(
                 \Monolog\Handler\StreamHandler::class,
                 [
-                    __DIR__ . "/../../var/log",
+                    __DIR__ . "/../../var/log/this_is_log.log",
                     \Monolog\Logger::DEBUG,
                 ]
             ))
