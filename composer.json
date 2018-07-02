@@ -1,6 +1,6 @@
 {
     "name": "fratily/fratily",
-    "keywords": ["Fratily"],
+    "keywords": ["fratily"],
     "authors": [
         {
             "name": "Kento Oka",
@@ -14,7 +14,7 @@
         "monolog/monolog": "^1.23"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.0"
+        "phpunit/phpunit": "^7.0"
     },
     "autoload": {
         "psr-4": {
