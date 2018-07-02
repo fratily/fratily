@@ -5,34 +5,35 @@ require "../vendor/autoload.php";
 $debug  = true;
 
 try{
-    $cache  = (new Fratily\Cache\CacheFactory())->createFileSystemDriver([
-        "path"  => __DIR__ . "/../var/cache/app"
-    ]);
-
-    $containerCache = true;
-
-    $app    = (new Fratily\Framework\ApplicationFactory($cache))
-        ->create([
-            App\Container\AppConfig::class
-        ], $debug, $containerCache
+    $app    = Fratily\Framework\Application::create(
+        [
+            new App\Container\AppConfig(),
+        ],
+        $debug
     );
 
-    $app->get("/", "app.controller.index:index", "index");
-
-    $request    = (new Fratily\Http\Factory\ServerRequestFactory())->createServerRequestFromArray($_SERVER);
-
-    $app->generateResponse($request)->send();
+    $app->generateResponse()->send();
 }catch(Throwable $e){
     if(!headers_sent()){
         http_response_code(500);
     }
 
     if($debug){
-        echo get_class($e), "(", $e->getFile(), " ", $e->getLine(), ")";
-        echo PHP_EOL, "<br>", PHP_EOL;
-        echo $e->getMessage();
-        echo PHP_EOL, "<br><br>", PHP_EOL;
-        echo nl2br($e->getTraceAsString());
+?>
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title><?=htmlspecialchars(get_class($e))?></title>
+</head>
+<body>
+    <section>
+        <h2><?=htmlspecialchars(get_class($e))?></h2>
+        <small><?=htmlspecialchars($e->getFile())?> line <?=htmlspecialchars($e->getLine())?></small>
+        <p><?=nl2br(htmlspecialchars($e->getMessage()))?></p>
+        <div><?=nl2br(htmlspecialchars($e->getTraceAsString()))?></div>
+    </section>
+</body>
+<?php
     }else{
         echo "System error!!";
     }

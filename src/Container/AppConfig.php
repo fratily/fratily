@@ -53,4 +53,10 @@ class AppConfig extends ContainerConfig{
             ->setter(\Monolog\Logger::class, "pushHandler", $container->lazyGet("app.log.handler"))
         ;
     }
+
+    public function modify(Container $container){
+        $app    = $container->get("app");
+
+        $app->get("/", "app.controller.index:index", "*", "index");
+    }
 }
